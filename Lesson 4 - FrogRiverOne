@@ -1,0 +1,54 @@
+/* https://app.codility.com/programmers/lessons/4-counting_elements/frog_river_one/ */
+
+/* Approach 1: set
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(int X, vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    unordered_set<int> uset;
+    for(int i = 1; i <= X; ++i) uset.insert(i);
+    
+    for(int i = 0; i < A.size(); ++i)
+    {
+        if(uset.count(A[i]) == 1) uset.erase(A[i]);
+        
+        if(uset.size() == 0) return i;
+    }
+    
+    return -1;
+}
+
+/* Approach 2: set
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(int X, vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    unordered_set<int> uset;
+    for(int i = 0; i < A.size(); ++i)
+    {
+        if(uset.count(A[i]) == 0) uset.insert(A[i]);
+        
+        if(uset.size() == X) return i;
+    }
+    return -1;
+}
