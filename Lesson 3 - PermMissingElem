@@ -1,0 +1,52 @@
+/* https://app.codility.com/programmers/lessons/3-time_complexity/perm_missing_elem/ */
+
+/* Approach 1: using bucket
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    vector<int> bucket(A.size() + 1, 0);
+    for(auto a : A)
+    {
+        ++bucket[a];
+    }
+    
+    for(int i = 1; i < bucket.size(); ++i)
+    {
+        if(bucket[i] == 0) return i;
+    }
+}
+
+/* Approach 2: math
+Intuition: If no missing element, the sum will equal to 1 + 2 + ... + N + (N + 1) = (N + 1) * ((N + 1) + 1) / 2.
+           So, the missing element is the sum minus all elements in the array A.
+
+Time complexity:  O(n)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    int sum = (A.size() + 1) * ((A.size() + 1) + 1) / 2;
+    for(auto a : A)
+    {
+        sum -= a;
+    }
+    return sum;
+}
