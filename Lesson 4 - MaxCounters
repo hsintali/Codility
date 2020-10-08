@@ -1,0 +1,78 @@
+/* https://app.codility.com/programmers/lessons/4-counting_elements/max_counters/ */
+
+/* Approach 1: simulation (TLE)
+Intuition:
+
+Time complexity:  O(N * M), M is A.size()
+Space complexity: O(N)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+vector<int> solution(int N, vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    int peak = 0;
+    vector<int> counter(N, 0);
+    
+    for(auto a : A)
+    {
+        if(a != N + 1)
+        {
+            ++counter[a - 1];
+            peak = max(peak, counter[a - 1]);
+        }
+        else
+        {
+            for(int i = 0; i < N; ++i)
+            {
+                counter[i] = peak;
+            }
+        }
+    }
+    
+    return counter;
+}
+
+/* Approach 2: 
+Intuition:
+
+Time complexity:  O(N + M), M is A.size()
+Space complexity: O(N)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+vector<int> solution(int N, vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    int peak, maxCounter = 0;
+    vector<int> counter(N, 0);
+    
+    for(auto a : A)
+    {
+        if(a != N + 1)
+        {
+            if(counter[a - 1] < maxCounter) counter[a - 1] = maxCounter;
+            ++counter[a - 1];
+            peak = max(peak, counter[a - 1]);
+        }
+        else
+        {
+            maxCounter = peak;
+        }
+    }
+    
+    for(int i = 0; i < N; ++i)
+    {
+        if(counter[i] < maxCounter) counter[i] = maxCounter;
+    }
+    
+    return counter;
+}
