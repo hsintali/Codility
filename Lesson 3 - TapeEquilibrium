@@ -1,0 +1,32 @@
+/* https://app.codility.com/programmers/lessons/3-time_complexity/tape_equilibrium/ */
+
+/* Approach 1:
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    int sum = 0;
+    for(int i = 1; i < A.size(); ++i) sum += A[i];
+    
+    int prefix = A[0];
+    int ans = abs(prefix - sum);
+    
+    for(int i = 1; i < A.size() - 1; ++i)
+    {
+        prefix += A[i];
+        sum -= A[i];
+        ans = min(ans, abs(prefix - sum));
+    }
+    
+    return ans;
+}
