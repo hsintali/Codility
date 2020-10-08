@@ -1,0 +1,36 @@
+/* https://app.codility.com/programmers/lessons/2-arrays/cyclic_rotation/ */
+
+/* Approach 1: Three-step reverse
+Intuition: Coner case: if A.size() == 0, K & A.size() will throw error
+
+Time complexity:  O(n)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+void reverse(vector<int> &A, int left, int right)
+{
+    if(left < 0 or right < 0 or left >= right) return;
+    
+    while(left < right)
+    {
+        int temp = A[left];
+        A[left++] = A[right];
+        A[right--] = temp;
+    }
+}
+
+vector<int> solution(vector<int> &A, int K) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(A.size() == 0) return A;
+    K %= A.size();
+    reverse(A, 0, A.size() - K - 1);
+    reverse(A, A.size() - K, A.size() - 1);
+    reverse(A, 0, A.size() - 1);
+    return A;
+}
