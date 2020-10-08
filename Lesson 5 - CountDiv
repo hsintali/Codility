@@ -1,0 +1,41 @@
+/* https://app.codility.com/programmers/lessons/5-prefix_sums/count_div/ */
+
+/* Approach 1: math
+Intuition: 要注意 0 可被任何數整除。
+
+Time complexity:  O(1)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(int A, int B, int K) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(A == 0)
+    {
+        return (B / K) + 1;
+    }
+    return (B / K) - ((A - 1) / K);
+}
+
+/* Approach 2: math
+Intuition: 分別計算 [1, ..., A] 和 [1, ..., B] 的數量再相減，最後判斷 A 本身是不是也能整除
+
+Time complexity:  O(1)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(int A, int B, int K) {
+    // write your code in C++14 (g++ 6.2.0)
+    return (B / K) - (A / K) + !(A % K);
+}
