@@ -1,0 +1,42 @@
+/* https://app.codility.com/programmers/lessons/5-prefix_sums/min_avg_two_slice/ */
+
+/* Approach 1: PrefixSum
+Intuition:
+
+Time complexity:  O(n^2)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    vector<int> prefixSum(A.size() + 1, 0);
+    for(int i = 0; i < A.size(); ++i)
+    {
+        prefixSum[i + 1] = prefixSum[i] + A[i];
+    }
+    
+    int ans = INT_MAX;
+    double minAvg = DBL_MAX;
+    for(int P = 0; P < A.size() - 1; ++P)
+    {
+        for(int Q = P + 1; Q < A.size(); ++Q)
+        {
+            int sum = prefixSum[Q + 1] - prefixSum[P];
+            double newAvg = (double)sum / (Q - P + 1);
+            
+            if(newAvg < minAvg)
+            {
+                minAvg = newAvg;
+                ans = P;
+            }
+        }
+    }
+    
+    return ans;
+}
