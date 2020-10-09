@@ -1,6 +1,6 @@
 /* https://app.codility.com/programmers/lessons/5-prefix_sums/min_avg_two_slice/ */
 
-/* Approach 1: PrefixSum
+/* Approach 1: PrefixSum (TLE)
 Intuition:
 
 Time complexity:  O(n^2)
@@ -35,6 +35,104 @@ int solution(vector<int> &A) {
                 minAvg = newAvg;
                 ans = P;
             }
+        }
+    }
+    
+    return ans;
+}
+
+/* Approach 2: PrefixSum (TLE)
+Intuition:
+
+Time complexity:  O(n^2)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    vector<int> prefixSum(A.size() + 1, 0);
+    for(int i = 0; i < A.size(); ++i)
+    {
+        prefixSum[i + 1] = prefixSum[i] + A[i];
+    }
+    
+    int ans = INT_MAX;
+    double minAvg = DBL_MAX;
+    for(int len = 2; len <= A.size(); ++len)
+    {
+        int minSum = INT_MAX;
+        int minP = INT_MAX;
+        for(int P = 0; P < A.size() - len + 1; ++P)
+        {
+            int sum = prefixSum[P + len] - prefixSum[P];
+            if(sum < minSum)
+            {
+                minSum = sum;
+                minP = P;
+            }
+        }
+        
+        double newAvg = static_cast<double>(minSum) / len;
+        if(newAvg < minAvg)
+        {
+            minAvg = newAvg;
+            ans = minP;
+        }
+    }
+    
+    return ans;
+}
+
+/* Approach 3: PrefixSum
+Intuition: (1) There must be some slices, with length of two or three, having the minimal average value among all the slices.
+           (2) And all the longer slices with minimal average are built up with these 2-element and/or 3-element small slices.
+           Ref: https://codesays.com/2014/solution-to-min-avg-two-slice-by-codility/
+
+Time complexity:  O(n)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    vector<int> prefixSum(A.size() + 1, 0);
+    for(int i = 0; i < A.size(); ++i)
+    {
+        prefixSum[i + 1] = prefixSum[i] + A[i];
+    }
+    
+    int ans = INT_MAX;
+    double minAvg = DBL_MAX;
+    for(int len = 2; len <= 3; ++len)
+    {
+        int minSum = INT_MAX;
+        int minP = INT_MAX;
+        for(int P = 0; P < A.size() - len + 1; ++P)
+        {
+            int sum = prefixSum[P + len] - prefixSum[P];
+            if(sum < minSum)
+            {
+                minSum = sum;
+                minP = P;
+            }
+        }
+        
+        double newAvg = static_cast<double>(minSum) / len;
+        if(newAvg < minAvg)
+        {
+            minAvg = newAvg;
+            ans = minP;
         }
     }
     
