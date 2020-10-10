@@ -1,0 +1,25 @@
+/* https://app.codility.com/programmers/lessons/6-sorting/distinct/ */
+
+/* Approach 1: hashSet
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    if(A.size() == 0) return 0;
+    unordered_set<int> uset;
+    for(auto a : A)
+    {
+        uset.insert(a);
+    }
+    return uset.size();
+}
