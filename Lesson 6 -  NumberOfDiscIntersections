@@ -1,0 +1,74 @@
+/* https://app.codility.com/programmers/lessons/6-sorting/number_of_disc_intersections/ */
+
+/* Approach 1: Bruteforce (TLE)
+Intuition: 只要有重疊就算 intersect
+
+Time complexity:  O(n^2)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include <bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    int count = 0;
+    for(int i = 0; i < A.size() - 1; ++i)
+    {
+        for(int j = i + 1; j < A.size(); ++j)
+        {
+            long long int rightmost = (long long int)i +  (long long int)A[i];
+            if(rightmost >= j - A[j]) ++count;
+            if(count > 10000000) return -1;
+        }
+    }
+    return count;
+}
+
+/* Approach 2: Sort
+Intuition: 將 discs 轉化為區間，把左邊看做進入，右邊看成出去。
+           當遇到左值時，表示當前位置進入了一個圓裡面，用 numLeftSide 紀錄目前在多少個圓裡面。
+           每次遇到新的左值，表示新遇到的這個圓在 numLeftSide 個圓裡，所以 count += numLeftSide，然後需要 ++numLeftSide。
+           遇到右值時表示離開某個圓，所以 --numLeftSide。
+
+Time complexity:  O(nlogn)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include <bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    vector<pair<long long int, int>> positions;
+    for(int i = 0; i < A.size(); ++i)
+    {
+        positions.push_back(make_pair((long long int)i - A[i], 0));
+        positions.push_back(make_pair((long long int)i + A[i], 1));
+    }
+    sort(positions.begin(), positions.end());
+    
+    int count = 0;
+    int numLeftSide = 0;
+    for(int i = 0; i < positions.size(); ++i)
+    {
+        if(positions[i].second == 0)
+        {
+            count += numLeftSide;
+            ++numLeftSide;
+            if(count > 10000000) return -1;
+        }
+        else
+        {
+            --numLeftSide;
+        }
+    }
+    
+    return count;
+}
