@@ -1,0 +1,46 @@
+/* https://app.codility.com/programmers/lessons/6-sorting/max_product_of_three/ */
+
+/* Approach 1: Sort
+Intuition:
+
+Time complexity:  O(nlogn)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    sort(A.begin(), A.end());
+    
+    if(A[A.size() - 3] > 0) // at least 3 numbers are postive
+    {
+        int n2p1 = A[0] * A[1] * A[A.size() - 1];
+        int p3 = A[A.size() - 3] * A[A.size() - 2] * A[A.size() - 1];
+        return max(n2p1, p3);
+    }
+    else if(A[A.size() - 2] > 0) // exact 2 numbers are postive
+    {
+        int maximal = 0;
+        int n1p2 = A[A.size() - 3] * A[A.size() - 2] * A[A.size() - 1];
+        int n2p1 = A[0] * A[1] * A[A.size() - 1];
+        maximal = max(n1p2, n2p1);
+        if(A.size() >= 5)
+        {
+            int n3 = A[A.size() - 5] * A[A.size() - 4] * A[A.size() - 3];
+            maximal = max(maximal, n3);
+        }
+        return maximal;
+    }
+    else if(A[A.size() - 1] > 0) // exact 1 number is postive
+    {
+        return A[0] * A[1] * A[A.size() - 1];
+    }
+    
+    // all numbers are negative
+    return A[A.size() - 1] * A[A.size() - 2] * A[A.size() - 3];
+}
