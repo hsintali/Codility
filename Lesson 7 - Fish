@@ -1,0 +1,40 @@
+/* https://app.codility.com/programmers/lessons/7-stacks_and_queues/fish/ */
+
+/* Approach 1: stack
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<stack>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A, vector<int> &B) {
+    // write your code in C++14 (g++ 6.2.0)
+    int count = 0;
+    stack<int> stk; // store only downstream direction fish: B[i] =1 
+    for(int i = 0; i < A.size(); ++i)
+    {
+        if(B[i] == 0)
+        {
+            if(stk.empty())
+            {
+                ++count;
+            }
+            else if(stk.top() < A[i])
+            {
+                while(!stk.empty() and stk.top() < A[i]) stk.pop();
+                if(stk.empty()) ++count;
+            }
+        }
+        else
+        {
+            stk.push(A[i]);
+        }
+    }
+    return count + stk.size();
+}
