@@ -1,0 +1,32 @@
+/* https://app.codility.com/programmers/lessons/7-stacks_and_queues/nesting/ */
+
+/* Approach 1: greedy
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(string &S) {
+    // write your code in C++14 (g++ 6.2.0)
+    int count = 0;
+    for(auto c : S)
+    {
+        if(c == '(')
+        {
+            ++count;
+        }
+        else
+        {
+            if(count <= 0) return 0;
+            --count;
+        }
+    }
+    return count == 0;
+}
