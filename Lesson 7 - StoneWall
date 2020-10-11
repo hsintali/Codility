@@ -1,0 +1,39 @@
+/* https://app.codility.com/programmers/lessons/7-stacks_and_queues/stone_wall/ */
+
+/* Approach 1: Monotone stack
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<stack>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &H) {
+    // write your code in C++14 (g++ 6.2.0)
+    int count = 0;
+    H.push_back(0);
+    stack<int> stk;
+    for(auto h : H)
+    {
+        if(stk.empty() or stk.top() < h)
+        {
+            stk.push(h);
+        } 
+        else if(stk.top() > h)
+        {
+            while(!stk.empty() and stk.top() > h)
+            {
+                stk.pop();
+                ++count;
+            }
+            
+            if(stk.empty() or stk.top() != h) stk.push(h);
+        }
+    }
+    return count;
+}
