@@ -1,0 +1,40 @@
+/* https://app.codility.com/programmers/lessons/7-stacks_and_queues/ */
+
+/* Approach 1: stack
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(string &S) {
+    // write your code in C++14 (g++ 6.2.0)
+    unordered_map<char, char> umap = {{')', '('}, {']', '['}, {'}', '{'}};
+    stack<char> stk;
+    for(auto &c : S)
+    {
+        if(umap.count(c) == 1)
+        {
+            char top = stk.empty() ? '#' : stk.top();
+            if(umap[c] == top)
+            {
+                stk.pop();
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            stk.push(c);
+        }
+    }
+    return stk.empty() ? 1: 0;
+}
