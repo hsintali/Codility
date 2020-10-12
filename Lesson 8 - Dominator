@@ -1,0 +1,55 @@
+/* https://app.codility.com/programmers/lessons/8-leader/dominator/ */
+
+/* Approach 1: 刪除兩兩不相同的數字，最後剩下的就有可能是 leader。
+Intuition: If the sequence contains a leader, then after removing a pair of elements of different values, the remaining sequence still has the same leader.
+
+Time complexity:  O(n)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    int count = 0;
+    int leader = 0;
+    
+    for(auto a : A)
+    {
+        if(count == 0)
+        {
+            leader = a;
+            ++count;
+        }
+        else
+        {
+            if(a != leader)
+            {
+                --count;
+            }
+            else
+            {
+                ++count;
+            }
+        }
+    }
+    if(count == 0) return -1;
+    
+    count = 0;
+    for(auto a : A)
+    {
+        if(a == leader) ++count;
+    }
+    if(count <= A.size() / 2) return -1;
+    
+    for(int i = 0; i < A.size(); ++i)
+    {
+        if(A[i] == leader) return i;
+    }
+    
+    return -1;
+}
