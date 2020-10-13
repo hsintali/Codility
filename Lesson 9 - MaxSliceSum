@@ -1,0 +1,28 @@
+/* https://app.codility.com/programmers/lessons/9-maximum_slice_problem/max_slice_sum/ */
+
+/* Approach 1:
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    long long int maxSum = -2147483648;
+    long long int prefixSum_cur = 0;
+    long long int prefixSum_min = 0;
+    for(auto &a : A)
+    {
+        prefixSum_cur += a;
+        maxSum = max(maxSum, prefixSum_cur - prefixSum_min);
+        prefixSum_min = min(prefixSum_min, prefixSum_cur);
+    }
+    return maxSum;
+}
