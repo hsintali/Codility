@@ -1,6 +1,6 @@
 /* https://app.codility.com/programmers/lessons/9-maximum_slice_problem/max_slice_sum/ */
 
-/* Approach 1:
+/* Approach 1: prefixSum
 Intuition:
 
 Time complexity:  O(n)
@@ -23,6 +23,31 @@ int solution(vector<int> &A) {
         prefixSum_cur += a;
         maxSum = max(maxSum, prefixSum_cur - prefixSum_min);
         prefixSum_min = min(prefixSum_min, prefixSum_cur);
+    }
+    return maxSum;
+}
+
+/* Approach 2: dp
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(1)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    int maxSum = A[0];
+    int maxSofar = A[0];
+    for(int i = 1; i < A.size(); ++i)
+    {
+        maxSofar = max(A[i], maxSofar + A[i]);
+        maxSum = max(maxSum, maxSofar);
     }
     return maxSum;
 }
