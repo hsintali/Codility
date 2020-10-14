@@ -1,0 +1,46 @@
+/* https://app.codility.com/programmers/lessons/9-maximum_slice_problem/max_double_slice_sum/ */
+
+/* Approach 1: DP (Kadane's Algorithm)
+Intuition: We can use Kadane’s algorithm from two directions.
+           First, we can safely ignore A[0] and A[N-1] since by definition they can’t be a part of any double-slice sum.
+           Now, define K1[i] as the maximum sum contiguous subsequence ending at index i, and similarly, 
+           define K2[i] as the maximum sum contiguous subsequence starting with index i.
+           Then, iterate over i, and find the maximum sum of K1[i-1]+K2[i+1]. This is the max double slice sum.
+           Ref: https://rafal.io/posts/codility-max-double-slice-sum.html
+           
+           Note: max(A[i], leftSofarMax[i - 1] + A[i]) should be max(0, leftSofarMax[i - 1] + A[i]),
+                 since we are allowed to not count A[X], A[Y], A[Z] if A[i] is negative.
+
+Time complexity:  O(n)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    vector<int> leftSofarMax(A.size(), 0);
+    for(int i = 1; i <= A.size() - 2; ++i)
+    {
+        leftSofarMax[i] = max(0, leftSofarMax[i - 1] + A[i]);
+        // leftSofarMax[i] = max(A[i], leftSofarMax[i - 1] + A[i]);
+    }
+    
+    vector<int> rightSofarMax(A.size(), 0);
+    for(int i = A.size() - 2; i >= 1; --i)
+    {
+        rightSofarMax[i] = max(0, rightSofarMax[i + 1] + A[i]);
+        // rightSofarMax[i] = max(A[i], rightSofarMax[i + 1] + A[i]);
+    }
+    
+    int ans = 0;
+    for(int i = 1; i <= A.size() - 2; ++i)
+    {
+        ans = max(ans, leftSofarMax[i - 1] + rightSofarMax[i + 1]);
+    }
+    return ans;
+}
