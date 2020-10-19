@@ -1,0 +1,59 @@
+/* https://app.codility.com/programmers/lessons/10-prime_and_composite_numbers/flags/ */
+
+/* Approach 1:
+Intuition:
+
+Time complexity:  O( n * sqrt(n) )
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+bool isNFlagsCanBeSet(vector<int> &A, vector<bool> &peaks, int n)
+{
+    int pos = 0;
+    int flags = n;
+    while(flags > 0 and pos < A.size())
+    {
+        if(peaks[pos] == true)
+        {
+            --flags;
+            pos += n;
+        }
+        else
+        {
+            ++pos;
+        }
+    }
+    return flags == 0;
+}
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    vector<bool> peaks(A.size(), false);
+    for(int i = 1; i < A.size() - 1; ++i)
+    {
+        if(A[i] > A[i - 1] and A[i] > A[i + 1])
+        {
+            peaks[i] = true;
+        }
+    }
+    
+    for(int i = sqrt(A.size()) + 1; i >= 1; --i)
+    {
+        if(isNFlagsCanBeSet(A, peaks, i)) return i;
+    }
+    return 0;
+}
+
+/* Approach 2:
+Intuition:
+
+Time complexity:  O(n)
+Space complexity: O(n)
+*/
+
