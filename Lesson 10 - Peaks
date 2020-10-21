@@ -1,0 +1,73 @@
+/* https://app.codility.com/programmers/lessons/10-prime_and_composite_numbers/peaks/ */
+
+/* Approach 1:
+Intuition:
+
+Time complexity:  ~O(N * sqrt(N))
+Space complexity: O(N)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+int solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    // O(N)
+    int count = 0;
+    vector<bool> peaks(A.size(), false);
+    for(int i = 1; i < A.size() - 1; ++i)
+    {
+        if(A[i] > A[i - 1] and A[i] > A[i +1])
+        {
+            peaks[i] = true;
+            ++count;
+        }
+    }
+    if(count == 0) return 0;
+    
+    // O(N)
+    vector<int> next(A.size(), -1);
+    for(int i = A.size() - 2; i >= 0; --i)
+    {
+        if(peaks[i])
+        {
+            next[i] = i;
+        }
+        else
+        {
+            next[i] = next[i + 1];
+        }
+    }
+    
+    // the number of factor is O( 2 * sqrt(N) ) 
+    // O( 2 * sqrt(N) ) * O(?) + O(N)
+    // 共有 O(sqrt(N)) 次的 outer loop 會跑 inner loop，剩下 O(N) 次會直接 continue
+    // 每次 inner loop 會跑 N 的因數次
+    // ==> O( SUM(all factors of N) )
+    
+    // n blocks, m elements per block
+    for(int n = count; n >= 1; --n)
+    {
+        if(A.size() % n != 0) continue;
+        
+        int m = A.size() / n;
+        bool check = true;
+        
+        // ith blocks
+        for(int i = 0; i < n; ++i)
+        {
+            if(next[i * m] >= i * m + m or next[i * m] == -1)
+            {
+                check = false;
+                break;
+            }
+        }
+        
+        if(check == true) return n;
+    }
+    
+    return 0;
+}
