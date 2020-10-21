@@ -1,0 +1,39 @@
+/* https://app.codility.com/programmers/lessons/11-sieve_of_eratosthenes/count_non_divisible/ */
+
+/* Approach 1: brute force (TLE)
+Intuition:
+
+Time complexity:  O(n^2)
+Space complexity: O(n)
+*/
+
+// you can use includes, for example:
+// #include <algorithm>
+#include<bits/stdc++.h>
+// you can write to stdout for debugging purposes, e.g.
+// cout << "this is a debug message" << endl;
+
+vector<int> solution(vector<int> &A) {
+    // write your code in C++14 (g++ 6.2.0)
+    unordered_map<int, int> freq;
+    for(auto a : A) ++freq[a];
+    
+    vector<int> ans(A.size(), 0);
+    for(int i = 0; i < A.size(); ++i)
+    {
+        for(auto it : freq)
+        {
+            if(A[i] % it.first != 0) ans[i] += it.second;
+        }
+    }
+    
+    return ans;
+}
+
+/* Approach 2: Sieve of Eratosthenes
+Intuition:
+
+Time complexity:  O(n * )
+Space complexity: O(n)
+*/
+
